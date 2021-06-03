@@ -80,7 +80,7 @@ RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get install -y librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
 
 #RUN /bin/bash -c "cd ~/libraries;git clone https://github.com/IntelRealSense/librealsense.git;cd librealsense; mkdir build; cd build; cmake ..; make -j16; make install;"
-RUN /bin/bash -c "cd ~/workspace/; git clone https://github.com/tjdalsckd/libfranka_gpu_voxel ;cd ~/workspace/; "
+RUN /bin/bash -c "cd ~/workspace/; git clone https://github.com/tjdalsckd/libfranka_gpu_voxel ;cd ~/workspace/;  "
 
 RUN apt-get install -y ros-kinetic-libfranka
 RUN apt-get install  -y gedit
@@ -89,8 +89,6 @@ RUN apt-get install  -y gedit
 #RUN /bin/bash -c "cd ~/workspace/gpu_voxel_panda_sim; cp ../ros_trajectory_subscriber/examples_common.* .;"
 RUN /bin/bash -c "cd /usr/include; ln -s eigen3/Eigen Eigen;"
 RUN /bin/bash -c "cd ~;cd ~/workspace/; git clone https://github.com/tjdalsckd/ros_trajectory_subscriber.git;cd ~/workspace/"
-
-RUN /bin/bash -c "cd ~;cd ~/workspace/; git clone https://github.com/tjdalsckd/gpu_voxel_start_guide.git;cd ~/workspace/"
 
 RUN cd ~/workspace
 RUN echo 'cd /root/workspace' >> ~/.bashrc
@@ -101,6 +99,14 @@ RUN /bin/bash -c "cd /root/workspace; git clone https://github.com/tjdalsckd/pan
 RUN apt-get install -y python-pip
 RUN /bin/bash -c "/opt/conda/envs/ros/bin/pip install -U numpy ;/opt/conda/envs/ros/bin/pip  install pybullet"
 RUN /bin/bash -c "cd /root/workspace; ln -s /root/workspace/gpu-voxels/build/bin/gpu_voxels_visualizer gpu_voxels_visualizer"
+RUN  echo 'git config --global user.email "tjdalsckd@gmail.com"' >> ~/.bashrc
+RUN  echo 'git config --global user.name "Minchang Sung"' >> ~/.bashrc
+RUN cp -r  /root/workspace/libfranka_gpu_voxel/multi-view /root/workspace
+RUN pip install pyrealsense2
+RUN pip install pudb
+RUN pip install open3d-ros-helper
+RUN pip install open3d
+
 EXPOSE 80
 EXPOSE 443
 
