@@ -172,7 +172,11 @@ RUN mkdir -p /root/workspace/calibration_application
 RUN ./installer.install -mode silent -agreeToLicense yes -destinationFolder /root/workspace/calibration_application
 RUN echo "cd /root/workspace/calibration_application/application" >> /root/.bashrc
 RUN echo -e "#!/bin/bash \n export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/opengl/lib/glnxa64" >>/root/workspace/calibration_application/application/environment.sh
-RUN echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/opengl/lib/glnxa64" >>~/.bashrc
+RUN mv /root/workspace/calibration_application/application/Images /root/workspace/calibration_application/application/samples/Images
+RUN mv /root/workspace/calibration_application/application/Poses /root/workspace/calibration_application/application/samples/Poses
+RUN mkdir -p /root/workspace/calibration_application/application/samples/Result
+
+
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get install -y python3.6
@@ -183,6 +187,7 @@ RUN mv /usr/bin/python3.6 /usr/bin/python3
 RUN /bin/bash -c "cd ~/workspace/; git clone https://github.com/tjdalsckd/libfranka_gpu_voxel.git;cd ~/workspace/;  "
 RUN cp -r  /root/workspace/libfranka_gpu_voxel/multi-view /root/workspace
 
+RUN echo "export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/extern/bin/glnxa64:${LD_LIBRARY_PATH}" >>~/.bashrc
 EXPOSE 80
 EXPOSE 443
 
