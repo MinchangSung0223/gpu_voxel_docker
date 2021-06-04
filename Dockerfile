@@ -80,6 +80,7 @@ RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get install -y librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
 
 #RUN /bin/bash -c "cd ~/libraries;git clone https://github.com/IntelRealSense/librealsense.git;cd librealsense; mkdir build; cd build; cmake ..; make -j16; make install;"
+RUN /bin/bash -c "cd ~/workspace/; git clone https://github.com/tjdalsckd/libfranka_gpu_voxel; cd ~/workspace/; "
 
 RUN apt-get install -y ros-kinetic-libfranka
 RUN apt-get install  -y gedit
@@ -88,6 +89,8 @@ RUN apt-get install  -y gedit
 #RUN /bin/bash -c "cd ~/workspace/gpu_voxel_panda_sim; cp ../ros_trajectory_subscriber/examples_common.* .;"
 RUN /bin/bash -c "cd /usr/include; ln -s eigen3/Eigen Eigen;"
 RUN /bin/bash -c "cd ~;cd ~/workspace/; git clone https://github.com/tjdalsckd/ros_trajectory_subscriber.git;cd ~/workspace/"
+
+RUN /bin/bash -c "cd ~;cd ~/workspace/; git clone https://github.com/tjdalsckd/gpu_voxel_start_guide.git;cd ~/workspace/"
 
 RUN cd ~/workspace
 RUN echo 'cd /root/workspace' >> ~/.bashrc
@@ -98,96 +101,6 @@ RUN /bin/bash -c "cd /root/workspace; git clone https://github.com/tjdalsckd/pan
 RUN apt-get install -y python-pip
 RUN /bin/bash -c "/opt/conda/envs/ros/bin/pip install -U numpy ;/opt/conda/envs/ros/bin/pip  install pybullet"
 RUN /bin/bash -c "cd /root/workspace; ln -s /root/workspace/gpu-voxels/build/bin/gpu_voxels_visualizer gpu_voxels_visualizer"
-RUN  echo 'git config --global user.email "tjdalsckd@gmail.com"' >> ~/.bashrc
-RUN  echo 'git config --global user.name "Minchang Sung"' >> ~/.bashrc
-
-RUN apt-get install ros-kinetic-ros-numpy
-
-#calibratioon
-RUN curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=169TKl1sRQ74huYb9uUXAzgwsq6-ezFbS" > /dev/null 
-RUN curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=169TKl1sRQ74huYb9uUXAzgwsq6-ezFbS" -o installer.install
-RUN apt-get install -y unzip
-RUN chmod 777 installer.install
-RUN /bin/bash -c "cd /root/; mkdir matlab;cd matlab;wget https://ssd.mathworks.com/supportfiles/downloads/R2019a/Release/9/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2019a_Update_9_glnxa64.zip; unzip *;"
-RUN apt-get update && apt-get install -y \
-ca-certificates \
-lsb-release \
-libasound2 \
-libatk1.0-0 \
-libc6 \
-libcairo2 \
-libcap2 \
-libcomerr2 \
-libcups2 \
-libdbus-1-3 \
-libfontconfig1 \
-libgconf-2-4 \
-libgcrypt20 \
-libgdk-pixbuf2.0-0 \
-libgssapi-krb5-2 \
-libgstreamer-plugins-base1.0-0 \
-libgstreamer1.0-0 \
-libgtk2.0-0 \
-libk5crypto3 \
-libkrb5-3 \
-libnspr4 \
-libnspr4-dbg \
-libnss3 \
-libpam0g \
-libpango-1.0-0 \
-libpangocairo-1.0-0 \
-libpangoft2-1.0-0 \
-libselinux1 \
-libsm6 \
-libsndfile1 \
-libudev1 \
-libx11-6 \
-libx11-xcb1 \
-libxcb1 \
-libxcomposite1 \
-libxcursor1 \
-libxdamage1 \
-libxext6 \
-libxfixes3 \
-libxft2 \
-libxi6 \
-libxmu6 \
-libxrandr2 \
-libxrender1 \
-libxslt1.1 \
-libxss1 \
-libxt6 \
-libxtst6 \
-libxxf86vm1 \
-procps \
-xkb-data \
-xvfb \
-x11vnc \
-xvfb \
-sudo \
-zlib1g
-RUN apt-get install -y gedit
-RUN /bin/bash -c "cd /root/matlab/; bash install -mode silent -agreeToLicense yes;"
-RUN mkdir -p /root/workspace/calibration_application
-RUN ./installer.install -mode silent -agreeToLicense yes -destinationFolder /root/workspace/calibration_application
-RUN echo "cd /root/workspace/calibration_application/application" >> /root/.bashrc
-RUN echo -e "#!/bin/bash \n export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/opengl/lib/glnxa64" >>/root/workspace/calibration_application/application/environment.sh
-RUN mv /root/workspace/calibration_application/application/Images /root/workspace/calibration_application/application/samples/Images
-RUN mv /root/workspace/calibration_application/application/Poses /root/workspace/calibration_application/application/samples/Poses
-RUN mkdir -p /root/workspace/calibration_application/application/samples/Result
-
-
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get update
-RUN apt-get install -y python3.6
-RUN apt-get install -y python3.6-dev
-
-RUN mv /usr/bin/python3.6 /usr/bin/python3
-
-RUN /bin/bash -c "cd ~/workspace/; git clone https://github.com/tjdalsckd/libfranka_gpu_voxel.git;cd ~/workspace/;  "
-RUN cp -r  /root/workspace/libfranka_gpu_voxel/multi-view /root/workspace
-
-RUN echo "export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/extern/bin/glnxa64:${LD_LIBRARY_PATH}" >>~/.bashrc
 EXPOSE 80
 EXPOSE 443
 
