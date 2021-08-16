@@ -118,6 +118,4 @@ RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa.pub
 
 
-
-RUN /bin/bash -c "cd /root/workspace/; git clone https://github.com/tjdalsckd/mm_gpu_voxel ;"
  
