@@ -104,4 +104,20 @@ RUN /bin/bash -c "cd /root/workspace; ln -s /root/workspace/gpu-voxels/build/bin
 EXPOSE 80
 EXPOSE 443
 
+RUN echo 'git config --global user.email "tjdalsckd@gmail.com"' >> ~/.bashrc
+RUN /bin/bash -c "wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -;echo 'deb https://download.sublimetext.com/ apt/stable/' | sudo tee /etc/apt/sources.list.d/sublime-text.list ;sudo apt-get update;sudo apt-get install sublime-text"
+
+ARG ssh_prv_key
+ARG ssh_pub_key
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh && \
+    ssh-keyscan github.com > /root/.ssh/known_hosts
+RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
+    echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
+    chmod 600 /root/.ssh/id_rsa && \
+    chmod 600 /root/.ssh/id_rsa.pub
+
+
+
+RUN /bin/bash -c "cd /root/workspace/; git clone https://github.com/tjdalsckd/mm_gpu_voxel ;"
  
