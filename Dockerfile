@@ -122,4 +122,9 @@ RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa.pub
 
- 
+ ## install JSON
+RUN cd /root/libraries/; git clone https://github.com/open-source-parsers/jsoncpp.git; cd jsoncpp; mkdir build;cd build; cmake ..;make -j16;make install
+RUN echo 'git config --global user.email "tjdalsckd@gmail.com"' >> ~/.bashrc
+
+
+
