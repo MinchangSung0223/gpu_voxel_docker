@@ -1,5 +1,8 @@
-FROM nvidia/cudagl:10.0-devel-ubuntu16.04
+FROM nvidia/cuda:10.0-devel-ubuntu16.04
 MAINTAINER minchang <tjdalsckd@gmail.com>
+
+RUN rm -rf /var/lib/apt/lists/*
+
 RUN apt-get update &&  apt-get install -y -qq --no-install-recommends \
     libgl1 \
     libxext6 \ 
@@ -15,7 +18,6 @@ RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:$
 RUN echo 'export PATH=/usr/local/cuda/bin:/$PATH' >> ~/.bashrc
 RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-
 RUN apt-get install -y wget
 RUN apt-get install -y sudo curl
 RUN su root
@@ -126,5 +128,6 @@ RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
 RUN cd /root/libraries/; git clone https://github.com/open-source-parsers/jsoncpp.git; cd jsoncpp; mkdir build;cd build; cmake ..;make -j16;make install
 RUN echo 'git config --global user.email "tjdalsckd@gmail.com"' >> ~/.bashrc
 
-
+## install Poco
+RUN cd /root/libraries/; git clone https://github.com/pocoproject/poco.git; cd poco;./build_cmake.sh;make -j16;make install;
 
