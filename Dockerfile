@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-devel-ubuntu16.04
+FROM nvidia/cudagl:10.0-devel-ubuntu16.04
 MAINTAINER minchang <tjdalsckd@gmail.com>
 
 RUN rm -rf /var/lib/apt/lists/*
